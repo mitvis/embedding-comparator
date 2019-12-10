@@ -1,0 +1,477 @@
+:root {
+    --title-height: 45px;
+    --content-height: calc(100vh - var(--title-height));
+    --control-panel-width: 400px;
+    --histogram-height: 120px;
+
+    --comparator-blue: #2f4454;
+    --comparator-green: #66cda3;
+    --comparator-black: #1E2021;
+    --comparator-grey: #D3D3D3;
+    --comparator-text-grey: #A3A3A3;
+
+    --shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
+    --section-border: 1px solid var(--comparator-grey);
+
+    --title-font-size: 30px;
+    --title-font-weight: 500;
+    --subtitle-font-size: 18px;
+    --text-font-size: 14px;
+
+    --tooltip-font-weight: bold;
+    --tooltip-diameter: 3px;
+    --tooltip-pointer-size: 5px;
+    --tooltip-width: 150px;
+    --tooltip-circle-diameter: 20px;
+
+    --selection-tooltip-diameter: 18px;
+    --selection-tooltip-font-size: 14px;
+
+    --padding: calc((var(--title-height) - var(--title-font-size))/2);
+
+    --domino-width: 440px;
+
+}
+
+html {
+    height: 100%;
+    width: 100%;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    overflow-y: hidden;
+}
+
+.title{
+    background-color: var(--comparator-blue);
+    box-shadow: var(--shadow);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: calc(var(--padding)) 0 calc(var(--padding)) calc(2 * var(--padding));
+    font-size: var(--title-font-size);
+    color: white;
+    font-weight: var(--title-font-weight);
+}
+
+/* Tooltip attribute*/
+[data-tooltip] {
+  position: relative;
+}
+
+/* Hide the tooltip content by default */
+[data-tooltip]:before,
+[data-tooltip]:after {
+  visibility: hidden;
+  opacity: 0;
+}
+
+/* Tooltip text element */
+[data-tooltip]:before {
+  position: absolute;
+  padding: var(--padding);
+  margin-left: calc(var(--tooltip-circle-diameter)/4);
+  width: var(--tooltip-width);
+  border-radius: var(--tooltip-diameter);
+  background-color: var(--comparator-black);
+  color: white;
+  content: attr(data-tooltip);
+  text-align: left;
+  font-size: var(--text-font-size);
+}
+
+/* Tooltip pointer */
+[data-tooltip]:after {
+  position: absolute;
+  margin-top: calc(var(--text-font-size)/2);
+  content: " ";
+}
+
+/* Show tooltip content on hover */
+[data-tooltip]:hover:before,
+[data-tooltip]:hover:after {
+  visibility: visible;
+  opacity: 1;
+  z-index: 500;
+}
+
+/* Move tooltip right */
+.tooltip-control:before {
+    margin-left: calc(var(--tooltip-pointer-size)/4 + var(--subtitle-font-size));
+}
+
+/* Move tooltip left */
+.tooltip-title:before {
+  margin-left: calc(-1*(var(--tooltip-width) + var(--tooltip-pointer-size)*2));
+}
+
+/* Left arrow*/
+.tooltip-control:after {
+  border: var(--tooltip-pointer-size) solid var(--comparator-black);
+  border-top: var(--tooltip-pointer-size) solid transparent;
+  border-bottom: var(--tooltip-pointer-size) solid transparent;
+  border-left: var(--tooltip-pointer-size) solid transparent;
+}
+
+/* Right arrow*/
+.tooltip-title:after {
+  border: var(--tooltip-pointer-size) solid var(--comparator-black);
+  border-top: var(--tooltip-pointer-size) solid transparent;
+  border-bottom: var(--tooltip-pointer-size) solid transparent;
+  border-right: var(--tooltip-pointer-size) solid transparent;
+  margin-left: calc(-1*var(--subtitle-font-size) - var(--tooltip-pointer-size)*2);
+}
+
+/* Circle around question mark */
+.tooltip-control, .tooltip-title {
+    display: none;
+    text-align: center;
+    background-color: var(--comparator-green);
+    border-radius: 50%;
+    color: white;
+}
+
+.tooltip-control {
+    font-size: var(--subtitle-font-size);
+    line-height: var(--subtitle-font-size);
+    top: calc(var(--subtitle-font-size)/-4);
+    height: var(--subtitle-font-size);
+    width: var(--subtitle-font-size);
+}
+
+.tooltip-title {
+    font-size: var(--title-font-size);
+    line-height: var(--title-font-size);
+    height: var(--title-font-size);
+    width: var(--title-font-size);
+}
+
+#embedding-comparator-content {
+    display: flex;
+    flex-direction: row;
+}
+
+.control-panel {
+    height: var(--main-height);
+    display: flex;
+    flex-direction: column;
+    border-right: var(--section-border);
+}
+
+.model-selectors-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: calc(2 * var(--padding));
+    border-bottom: var(--section-border);
+}
+
+.similarity {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    padding: calc(2 * var(--padding));
+    border-bottom: var(--section-border);
+}
+
+.metrics {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    flex: 1;
+}
+
+.selector {
+    display: flex;
+    flex-direction: column;
+    padding: calc(2 * var(--padding));
+}
+
+.selection-title {
+    display: flex;
+    align-items: flex-end;
+    font-weight: bold;
+    font-size: 0.9em;
+    color: #555;
+}
+
+.select2-container--default .select2-selection--single, .select2-container--default .select2-selection--multiple {
+    font-size: 0.9em;
+    border: 1px solid #ccc !important;
+}
+
+.dataset-section {
+    padding-bottom: 0 !important;
+}
+
+.dataset-section span.select2 {
+    width: 100% !important;
+}
+
+.nearest-neighbor-selection {
+    flex: 1;
+}
+
+.distance-metric-selector {
+    margin-top: 10px;
+}
+
+.distance-metric-selector button {
+    margin-right: 5px;
+}
+
+.num-neighbors-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.histogram {
+    margin-left: 20px;
+}
+
+*:focus {
+    outline: none !important;
+}
+
+#num-neighbors-value {
+    margin: 0px;
+}
+
+.word-selection-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+.word-selection {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: calc(2 * var(--padding));
+    /* border-bottom: var(--section-border); */
+}
+
+.word-similarity {
+    padding: var(--padding);
+    display: flex;
+    flex-direction: column;
+}
+
+.word-similarity p {
+    margin-bottom: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+
+}
+
+#bootstrap-overrides .bootstrap-select:not([class*="col-"]):not([class*="form-control"]):not(.input-group-btn) {
+    width: 100%;
+}
+
+.projector-plot-container {
+    display: flex;
+    width: var(control-panel-width);
+    flex-direction: column;
+}
+
+.projector-plot-a-container, .projector-plot-b-container {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+.main-panel {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: calc(100vh - var(--title-height) - var(--control-panel-height));
+}
+
+.dominoes-container {
+}
+
+.dominoes-column-container {
+    display: flex;
+    flex-direction: row;
+    padding: calc(2 * var(--padding));
+    justify-content: space-between;
+}
+
+.domino-plots {
+    /* position: relative;
+    width: 100%;
+    height: 198px; */
+}
+
+.domino-plots svg {
+    margin-top: -1px;
+    margin-left: -1px;
+}
+
+.domino-column-title {
+    margin-bottom: 10px;
+    font-variant: all-small-caps;
+    text-align: center;
+}
+
+.domino-column-title .first-word {
+    font-weight: bold;
+}
+
+.domino-column {
+    height: calc(100vh - var(--title-height) - var(--padding)*10);
+    overflow-y: scroll;
+    padding-right: var(--padding);
+}
+
+.domino-column::-webkit-scrollbar {
+    -webkit-appearance: none;
+    width: 7px;
+    border: 1px solid #eee;
+}
+
+.domino-column::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background-color: rgba(0,0,0,.15);
+    -webkit-box-shadow: 0 0 1px rgba(255,255,255,.3);
+}
+
+.dominoes-column-left {
+    padding-right: calc(var(--padding)*2);
+    height: calc(100vh - var(--title-height) - var(--padding)*3);
+    display: flex;
+    flex-direction: row;
+}
+
+.dominoes-column-right {
+    height: calc(100vh - var(--title-height) - var(--padding)*3);
+    display: flex;
+    flex-direction: row;
+}
+
+.scroll-words-left, .scroll-words-right {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding-left: 5px;
+    margin-top: 35px;
+    color: dimgrey;
+    font-size: 10px;
+    width: 150px;
+    height: calc(100vh - var(--title-height) - var(--padding)*11)
+}
+
+.domino {
+    padding-bottom: 20px;
+}
+
+.domino-title {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2px 4px;
+    background: #ccc;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-top: 1px solid #aaa;
+    border-left: 1px solid #aaa;
+    border-right: 1px solid #aaa;
+}
+
+.domino-active > .domino-title > .domino-score {
+    font-weight: 700;
+}
+
+.domino-active > .domino-title > .domino-word {
+    font-weight: 900;
+}
+
+.domino-word {
+    font-weight: bold;
+    color: #333;
+}
+
+.domino-score {
+    font-size: 0.8em;
+    color: #777;
+}
+
+table {
+    border-collapse: separate;
+}
+
+.word-cell {
+    font-size: 0.7em;
+    padding: 2px 4px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.domino-words-intersection {
+    width: 447px;
+    overflow: auto;
+    color: white;
+    background: #ddd;
+    padding: 2px;
+    border-top: 1px solid #aaa;
+    border-left: 1px solid #aaa;
+    border-right: 1px solid #aaa;
+}
+
+.domino-not-intersection {
+    width: 447px;
+    display: flex;
+    flex-direction: row;
+    background: #ddd;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-bottom: 1px solid #aaa;
+    border-left: 1px solid #aaa;
+    border-right: 1px solid #aaa;
+}
+
+.domino-words-a {
+    width: 224;
+    overflow: auto;
+    border-right: 1px solid #999;
+    display: flex;
+    flex-direction: row;
+    padding: 2px 0;
+}
+
+.scroll-word-active {
+    font-weight: bold;
+}
+
+.sparkline {
+    display: none;
+    margin-top: -3px;
+    border-radius: 5px;
+}
+
+.sparkline svg {
+    border: 1px solid #aaa;
+}
+
+.domino-words-b {
+    width: 223;
+    overflow: auto;
+    padding: 2px 0;
+}
+
+.row-header {
+    font-size: 0.8em;
+    font-weight: 600;
+    color: #888;
+    font-variant: all-small-caps;
+    display: flex;
+    flex-direction: row;
+}
