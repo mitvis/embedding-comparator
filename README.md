@@ -1,6 +1,8 @@
 # Embedding Comparator
 
-This repository contains code for the paper:   **Embedding Comparator: Visualizing Differences in Global Structure and Local Neighborhoods via Small Multiples**.
+This repository contains code for the paper:
+
+[Embedding Comparator: Visualizing Differences in Global Structure and Local Neighborhoods via Small Multiples](https://arxiv.org/abs/1912.04853)
 <br>
 Authors: Angie Boggust, Brandon Carter, Arvind Satyanarayan
 
