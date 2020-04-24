@@ -78,8 +78,8 @@ def create_nearest_neighbors_dicts(embeddings, max_k, metrics):
         inds, dists = compute_nearest_neighbors(embeddings, max_k, metric)
         for i, (ind, dist) in enumerate(zip(inds, dists)):
             to_return[i][metric] = {
-                'knn_ind': list(ind),
-                'knn_dist': list(dist),
+                'knn_ind': ind.tolist(),
+                'knn_dist': dist.tolist(),
             }
     return to_return
 
