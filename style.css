@@ -291,7 +291,7 @@ body {
     display: flex;
     flex-direction: row;
     width: 100%;
-    height: calc(100vh - var(--title-height) - var(--control-panel-height));
+    height: var(--content-height);
 }
 
 .dominoes-container {
@@ -301,6 +301,7 @@ body {
     display: flex;
     flex-direction: row;
     padding: calc(2 * var(--padding));
+    height: calc(var(--content-height) - (2 * var(--padding)));
     justify-content: space-between;
 }
 
@@ -326,7 +327,7 @@ body {
 }
 
 .domino-column {
-    height: calc(100vh - var(--title-height) - var(--padding)*10);
+    height: calc(var(--content-height) - (2 * var(--padding)) - 65px);
     overflow-y: scroll;
     padding-right: var(--padding);
 }
@@ -345,13 +346,11 @@ body {
 
 .dominoes-column-left {
     padding-right: calc(var(--padding)*2);
-    height: calc(100vh - var(--title-height) - var(--padding)*3);
     display: flex;
     flex-direction: row;
 }
 
 .dominoes-column-right {
-    height: calc(100vh - var(--title-height) - var(--padding)*3);
     display: flex;
     flex-direction: row;
 }
@@ -370,6 +369,7 @@ body {
 
 .domino {
     padding-bottom: 20px;
+    min-height: 325px;
 }
 
 .domino-title {

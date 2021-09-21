@@ -486,8 +486,24 @@ class Domino extends React.PureComponent {
     }
 
     componentDidMount() {
-        this.makeDomino();
-        this.makeClickable();
+        this.observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                // console.log(this.props.word)
+                // console.log(entry)
+                const {isIntersecting } = entry;
+                if (isIntersecting) {
+                    console.log(this.props.word)
+                    this.makeDomino();
+                    this.makeClickable();
+                    this.observer = this.observer.disconnect();
+                }
+            });
+        },
+        {
+            root: document.querySelector(".dominoes-column-container"), // relative to viewport
+        });
+
+        this.observer.observe(this.element);
     }
 
     componentDidUpdate(prevProps) {
@@ -498,7 +514,7 @@ class Domino extends React.PureComponent {
     render() {
         const roundedSimilarity = PERCENT_FORMAT(this.props.similarityValue);
         return (
-            <div className={this.props.className + " domino"} id={this.props.className} tabIndex='-1'>
+            <div className={this.props.className + " domino"} id={this.props.className} tabIndex='-1' ref={el => this.element = el}>
                 <div className='domino-title'>
                     <div className='domino-word'>{this.props.word}</div>
                     <div className='domino-score'>{roundedSimilarity} similar</div>
@@ -646,7 +662,7 @@ class DominoesContainer extends React.PureComponent {
         }
 
         return (
-            <div className='dominoes-column-container'>
+            <div className='dominoes-column-container' id='dominoes-column-container'>
                 <div className='dominoes-column-left'>
                     <DominoesColumn
                         wordIdxs={leastSimilarWordIdxs}
