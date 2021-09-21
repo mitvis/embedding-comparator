@@ -488,11 +488,8 @@ class Domino extends React.PureComponent {
     componentDidMount() {
         this.observer = new IntersectionObserver(entries => {
             entries.forEach(entry => {
-                // console.log(this.props.word)
-                // console.log(entry)
                 const {isIntersecting } = entry;
                 if (isIntersecting) {
-                    console.log(this.props.word)
                     this.makeDomino();
                     this.makeClickable();
                     this.observer = this.observer.disconnect();
@@ -507,8 +504,23 @@ class Domino extends React.PureComponent {
     }
 
     componentDidUpdate(prevProps) {
-        this.makeDomino();
-        this.makeClickable();
+        this.updateObserver = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                const {isIntersecting } = entry;
+                if (isIntersecting) {
+                    this.makeDomino();
+                    this.makeClickable();
+                    if (this.updateObserver) {
+                        this.updateObserver = this.updateObserver.disconnect();
+                    }
+                }
+            });
+        },
+        {
+            root: document.querySelector(".dominoes-column-container"), // relative to viewport
+        });
+
+        this.updateObserver.observe(this.element);
     }
 
     render() {
