@@ -28,6 +28,7 @@ const GLOBAL_PROJECTION_PLOTLY_LAYOUT = {
         b: 0,
         t: 0,
     },
+    hovermode: 'closest',
 };
 
 const GLOBAL_PROJECTION_PLOTLY_CONFIG = {
