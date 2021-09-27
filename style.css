@@ -2,7 +2,7 @@
     --title-height: 45px;
     --content-height: calc(100vh - var(--title-height));
     --control-panel-width: 400px;
-    --histogram-height: 120px;
+    --histogram-height: 180px;
 
     --comparator-blue: #2f4454;
     --comparator-green: #66cda3;

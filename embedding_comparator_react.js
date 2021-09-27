@@ -61,9 +61,16 @@ const SIMILARITY_METRICS = {
     'jaccard': 'Jaccard Similarity',
 };
 
+const PROJECTION_METHODS = {
+    'pca': 'PCA',
+    'umap': 'UMAP',
+    'tsne': 'tSNE',
+}
+
 const DEFAULT_DATASET = 'sentanalysis';
 const DEFAULT_DISTANCE_METRIC = 'cosine';
 const DEFAULT_SIMILARITY_METRIC = 'jaccard';
+const DEFAULT_PROJECTION_METHOD = 'pca';
 const NUM_DOMINOES_PER_COLUMN = 20;
 
 
@@ -243,6 +250,48 @@ class DistanceMetricSelector extends React.PureComponent {
                 <div className='selection-title'>
                     <div className='selection-title-text'>Distance Metric</div>
                     <div className='tooltip-control' data-tooltip="Distance metric for computing the nearest neighbors around each point.">
+                        ?
+                    </div>
+                </div>
+                <div className="button-row">
+                    {buttons}
+                </div>
+            </div>
+        );
+    }
+}
+
+class ProjectionMethodSelector extends React.PureComponent {
+    constructor(props) {
+        super(props);
+        this.handleProjectionMethodChange = this.handleProjectionMethodChange.bind(this)
+    }
+
+    handleProjectionMethodChange(e) {
+        this.props.onClick(e.target.value);
+    }
+
+    render() {
+        let buttons = [];
+        for (const key in this.props.options) {
+            var className = "btn btn-sm btn-outline-secondary";
+            if (key == this.props.projectionMethod) {
+                className += " active";
+            }
+            buttons.push(
+                <button
+                    value={key}
+                    key={key}
+                    // onClick={this.handleProjectionMethodChange}
+                    className={className}>
+                    {this.props.options[key]}
+                </button>);
+        }
+        return (
+            <div className='distance-metric-selector'>
+                <div className='selection-title'>
+                    <div className='selection-title-text'>Projection Method</div>
+                    <div className='tooltip-control' data-tooltip="Projection method used in global projection and local domino plots.">
                         ?
                     </div>
                 </div>
@@ -765,6 +814,7 @@ class EmbeddingComparator extends React.Component {
             numNearestNeighbors: DEFAULT_NUM_NEIGHBORS,
             distanceMetric: DEFAULT_DISTANCE_METRIC,
             similarityMetric: DEFAULT_SIMILARITY_METRIC,
+            projectionMethod: DEFAULT_PROJECTION_METHOD,
             selectedWordIdx: null,
             brushedWordIdxs: null,
             globalPlotSelectedWordIdxs: null,
@@ -778,6 +828,7 @@ class EmbeddingComparator extends React.Component {
         this.handleDatasetSelectorChange = this.handleDatasetSelectorChange.bind(this);
         this.handleModelChange = this.handleModelChange.bind(this);
         this.handleDistanceMetricChange = this.handleDistanceMetricChange.bind(this);
+        // this.handleProjectionMethodChange = this.handleProjectionMethodChange.bind(this);
         this.handleNumNeighborsSliderChange = this.handleNumNeighborsSliderChange.bind(this);
         this.handleDropdownChange = this.handleDropdownChange.bind(this);
         this.handleBrushSelectionChange = this.handleBrushSelectionChange.bind(this);
@@ -940,6 +991,7 @@ class EmbeddingComparator extends React.Component {
                                     selectedWordIdx={this.state.selectedWordIdx}
                                     activeDominoWordIdx={this.state.activeDominoWordIdx}
                                     distanceMetric={this.state.distanceMetric}
+                                    projectionMethod={this.state.projectionMethod}
                                     similarityValues={this.state.similarityValues}
                                     numNearestNeighbors={this.state.numNearestNeighbors}
                                     onSelection={this.handleGlobalPlotSelectionChange}
@@ -964,6 +1016,7 @@ class EmbeddingComparator extends React.Component {
                                     selectedWordIdx={this.state.selectedWordIdx}
                                     activeDominoWordIdx={this.state.activeDominoWordIdx}
                                     distanceMetric={this.state.distanceMetric}
+                                    projectionMethod={this.state.projectionMethod}
                                     similarityValues={this.state.similarityValues}
                                     numNearestNeighbors={this.state.numNearestNeighbors}
                                     onSelection={this.handleGlobalPlotSelectionChange}
@@ -982,16 +1035,23 @@ class EmbeddingComparator extends React.Component {
                                     distanceMetric={this.state.distanceMetric}
                                     onClick={this.handleDistanceMetricChange}
                                 />
+
+                                <ProjectionMethodSelector
+                                    options={this.props.projectionMethodOptions}
+                                    projectionMethod={this.state.projectionMethod}
+                                />          
                             </div>
-                            {/* <SimilarityMetricSelector
-                                options={this.props.similarityMetricOptions}
-                                similarityMetric={this.state.similarityMetric}
-                            /> */}
                             <SimilarityHistogram
                                 values={this.state.similarityValues}
                                 onBrush={this.handleBrushSelectionChange}
                                 brushedWordIdxs={this.state.brushedWordIdxs}
                             />
+                            {/* <SimilarityMetricSelector
+                                options={this.props.similarityMetricOptions}
+                                similarityMetric={this.state.similarityMetric}
+                            /> */}
+                            
+                            
                         </div>
 
                         <div className='word-selection-container'>
@@ -1010,6 +1070,7 @@ class EmbeddingComparator extends React.Component {
                             dataset1Objects={this.state.dataset1Objects}
                             dataset2Objects={this.state.dataset2Objects}
                             distanceMetric={this.state.distanceMetric}
+                            projectionMethod={this.state.projectionMethod}
                             numNearestNeighbors={this.state.numNearestNeighbors}
                             similarityValues={this.state.similarityValues}
                             selectedWordIdx={this.state.selectedWordIdx}
@@ -1031,6 +1092,7 @@ ReactDOM.render(
         datasetToModels={DATASET_TO_MODELS}
         distanceMetricOptions={DISTANCE_METRICS}
         similarityMetricOptions={SIMILARITY_METRICS}
+        projectionMethodOptions={PROJECTION_METHODS}
     />,
     document.getElementById('embedding_comparator_root'),
 );
