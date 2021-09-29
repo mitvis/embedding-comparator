@@ -175,7 +175,7 @@ function createSimilarityHistogram(values, onBrush, brushSelectedIdxs) {
     // set the dimensions and margins of the graph
     const margin = {top: 20, right: 10, bottom: 20, left: 10},
         width = 180 - margin.left - margin.right,
-        height = 180 - margin.top - margin.bottom;
+        height = 170 - margin.top - margin.bottom;
 
     // append the svg object to the body of the page
     var svg = d3.select(".similarity-histogram-container")

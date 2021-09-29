@@ -2,7 +2,7 @@
     --title-height: 45px;
     --content-height: calc(100vh - var(--title-height));
     --control-panel-width: 400px;
-    --histogram-height: 180px;
+    --histogram-height: 170px;
 
     --comparator-blue: #2f4454;
     --comparator-green: #66cda3;
@@ -28,6 +28,7 @@
     --selection-tooltip-font-size: 14px;
 
     --padding: calc((var(--title-height) - var(--title-font-size))/2);
+    --padding: 5px;
 
     --domino-width: 440px;
 
@@ -160,6 +161,7 @@ body {
     display: flex;
     flex-direction: column;
     border-right: var(--section-border);
+    /* width: var(--control-panel-width); */
 }
 
 .model-selectors-container {
@@ -183,6 +185,7 @@ body {
     justify-content: space-between;
     flex-direction: column;
     flex: 1;
+    width: 50px;
 }
 
 .selector {
@@ -231,7 +234,7 @@ body {
 }
 
 .histogram {
-    margin-left: 20px;
+    margin-left: 10px;
 }
 
 *:focus {
@@ -363,7 +366,7 @@ body {
     margin-top: 35px;
     color: dimgrey;
     font-size: 10px;
-    width: 150px;
+    width: 100px;
     height: calc(100vh - var(--title-height) - var(--padding)*11)
 }
 
