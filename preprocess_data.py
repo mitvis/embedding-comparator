@@ -1,7 +1,8 @@
 """Preprocesses embedding data for Embedding Comparator.
 
-Computes the local neighborhoods of each object in the embedding model and PCA
-dimensionality reduction of all objects. Writes output as JSON.
+Computes the local neighborhoods of each object in the embedding model and
+dimensionality reduction of all objects with PCA, t-SNE, and UMAP. Write output
+as JSON.
 
 The embeddings file should contain the embedding vectors, one embedding per line
 and each dimension of embedding tab-separated.
