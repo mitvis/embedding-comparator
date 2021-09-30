@@ -60,7 +60,7 @@ function roundSimilarityValue(value) {
     return value.toFixed(2);
 }
 
-function compute_iou_similarities(data1, data2, k, metric) {
+function compute_iou_similarities(data1, data2, k, metric, method) {
     to_return = []
     for (i = 0; i < data1.length; i++) {
         word1_neighbors = data1[i]['nearest_neighbors'][metric].knn_ind.slice(0, k);
@@ -103,11 +103,11 @@ function getMaxDist(datasetObjects, distanceMetric) {
     }
 }
 
-function getMinMaxCoords(data) {
+function getMinMaxCoords(data, projectionMethod) {
     minMaxCoords = {xMax: null, xMin: null, yMax: null, yMin: null}
     for (const datapoint of data) {
-        datapointX = datapoint.embedding_pca[0]
-        datapointY = datapoint.embedding_pca[1]
+        datapointX = datapoint[projectionMethod][0]
+        datapointY = datapoint[projectionMethod][1]
 
         if (minMaxCoords.xMax === null || datapointX > minMaxCoords.xMax) {
             minMaxCoords.xMax = datapointX
@@ -332,7 +332,7 @@ function createSparkline(containerId, percentage) {
 }
 
 function createDomino(containerClass, dataset1Objects, dataset2Objects,
-    wordIdx, distanceMetric, numNearestNeighbors, similarityValues, wordSimilarity) {
+    wordIdx, distanceMetric, numNearestNeighbors, similarityValues, wordSimilarity, projectionMethod) {
     const dataset1Neighbors = getNeighborsForWord(
         dataset1Objects, wordIdx, distanceMetric, numNearestNeighbors);
     const dataset2Neighbors = getNeighborsForWord(
@@ -354,8 +354,8 @@ function createDomino(containerClass, dataset1Objects, dataset2Objects,
         }
 
         data1Values.push({
-            x: dataset1Objects[idx].embedding_pca[0],
-            y: dataset1Objects[idx].embedding_pca[1],
+            x: dataset1Objects[idx][projectionMethod][0],
+            y: dataset1Objects[idx][projectionMethod][1],
             text: dataset1Objects[idx].word,
             color: intersect ? 'intersection' : 'difference',
             model: 'a'
@@ -370,8 +370,8 @@ function createDomino(containerClass, dataset1Objects, dataset2Objects,
         }
 
         data2Values.push({
-            x: dataset2Objects[idx].embedding_pca[0],
-            y: dataset2Objects[idx].embedding_pca[1],
+            x: dataset2Objects[idx][projectionMethod][0],
+            y: dataset2Objects[idx][projectionMethod][1],
             text: dataset2Objects[idx].word,
             color: intersect ? 'intersection' : 'difference',
             model: 'b'
@@ -380,16 +380,16 @@ function createDomino(containerClass, dataset1Objects, dataset2Objects,
 
     // Add the current word to the plots.
     data1Values.push({
-        x: dataset1Objects[wordIdx].embedding_pca[0],
-        y: dataset1Objects[wordIdx].embedding_pca[1],
+        x: dataset1Objects[wordIdx][projectionMethod][0],
+        y: dataset1Objects[wordIdx][projectionMethod][1],
         text: dataset1Objects[wordIdx].word,
         color: 'selected_word',
         model: 'a'
     });
 
     data2Values.push({
-        x: dataset2Objects[wordIdx].embedding_pca[0],
-        y: dataset2Objects[wordIdx].embedding_pca[1],
+        x: dataset2Objects[wordIdx][projectionMethod][0],
+        y: dataset2Objects[wordIdx][projectionMethod][1],
         text: dataset2Objects[wordIdx].word,
         color: 'selected_word',
         model: 'b'
@@ -457,7 +457,7 @@ function createScrollWords(wordIdxs, datasetObjects, similarityValues, container
 /* Create Scatter Plot */
 function createScatterPlot(
     containerClass, data, selectedWordIdx, distanceMetric,similarityScores,
-    numNearestNeighbors) {
+    numNearestNeighbors, projectionMethod) {
     d3.selectAll('.' + containerClass + ' > *').remove();
 
     var margin = {top: 10, right: 20, bottom: 20, left: 20},
@@ -473,7 +473,7 @@ function createScatterPlot(
         .attr("transform",
               "translate(" + margin.left + "," + margin.top + ")");
 
-    const plotMinMaxCoords = getMinMaxCoords(data);
+    const plotMinMaxCoords = getMinMaxCoords(data, projectionMethod);
 
     // Add X axis
     var x = d3.scaleLinear()
@@ -523,8 +523,8 @@ function createScatterPlot(
             .data(data)
             .enter()
             .append("circle")
-              .attr("cx", function (d) { return x(d.embedding_pca[0]); } )
-              .attr("cy", function (d) { return y(d.embedding_pca[1]); } )
+              .attr("cx", function (d) { return x(d[projectionMethod][0]); } )
+              .attr("cy", function (d) { return y(d[projectionMethod][1]); } )
               .attr("r", 2)
               .style("fill", function (d) {
                 const index = Math.floor(similarityScores[d.idx]*10);
@@ -541,8 +541,8 @@ function createScatterPlot(
             .data(data)
             .enter()
             .append("circle")
-              .attr("cx", function (d) { return x(d.embedding_pca[0]); } )
-              .attr("cy", function (d) { return y(d.embedding_pca[1]); } )
+              .attr("cx", function (d) { return x(d[projectionMethod][0]); } )
+              .attr("cy", function (d) { return y(d[projectionMethod][1]); } )
               .attr("r", 2)
               .style("fill", function (d, i) {
                 const index = Math.floor(similarityScores[d.idx]*SEQUENTIAL_COLORS.length);
@@ -559,14 +559,13 @@ function createScatterPlot(
 }
 
 function createScatterPlotPlotly(plotClass, datasetObjects, similarityScores,
-    selectedWordIdx, distanceMetric, numNearestNeighbors, onSelection) {
+    selectedWordIdx, distanceMetric, numNearestNeighbors, onSelection, projectionMethod) {
     Plotly.purge(plotClass);
 
     const allColors = similarityScores.map(val => DIVERGING_SCALE(val));
-
     const data = [{
-        x: datasetObjects.map(obj => obj.embedding_pca[0]),
-        y: datasetObjects.map(obj => obj.embedding_pca[1]),
+        x: datasetObjects.map(obj => obj[projectionMethod][0]),
+        y: datasetObjects.map(obj => obj[projectionMethod][1]),
         text: datasetObjects.map(obj => obj.word),
         mode: 'markers',
         type: 'scatter',

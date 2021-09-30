@@ -62,15 +62,15 @@ const SIMILARITY_METRICS = {
 };
 
 const PROJECTION_METHODS = {
-    'pca': 'PCA',
-    'umap': 'UMAP',
-    'tsne': 'tSNE',
+    'embedding_pca': 'PCA',
+    'embedding_umap': 'UMAP',
+    'embedding_tsne': 't-SNE',
 }
 
 const DEFAULT_DATASET = 'sentanalysis';
 const DEFAULT_DISTANCE_METRIC = 'cosine';
 const DEFAULT_SIMILARITY_METRIC = 'jaccard';
-const DEFAULT_PROJECTION_METHOD = 'pca';
+const DEFAULT_PROJECTION_METHOD = 'embedding_pca';
 const NUM_DOMINOES_PER_COLUMN = 20;
 
 
@@ -282,7 +282,7 @@ class ProjectionMethodSelector extends React.PureComponent {
                 <button
                     value={key}
                     key={key}
-                    // onClick={this.handleProjectionMethodChange}
+                    onClick={this.handleProjectionMethodChange}
                     className={className}>
                     {this.props.options[key]}
                 </button>);
@@ -453,6 +453,7 @@ class Plot extends React.PureComponent {
             this.props.distanceMetric,
             this.props.numNearestNeighbors,
             this.props.onSelection,
+            this.props.projectionMethod,
         );
     }
 
@@ -506,6 +507,7 @@ class Domino extends React.PureComponent {
         if (this.props.wordIdx === null || this.props.dataset1Objects.length == 0 || this.props.dataset2Objects.length == 0) {
             return;
         }
+
         createDomino(
             this.props.className,
             this.props.dataset1Objects,
@@ -515,6 +517,7 @@ class Domino extends React.PureComponent {
             this.props.numNearestNeighbors,
             this.props.similarityValues,
             this.props.similarityValue,
+            this.props.projectionMethod,
         );
     }
 
@@ -616,6 +619,7 @@ class DominoesColumn extends React.PureComponent {
                         numNearestNeighbors={this.props.numNearestNeighbors}
                         similarityValues={this.props.similarityValues}
                         onActiveDominoChange={this.props.onActiveDominoChange}
+                        projectionMethod={this.props.projectionMethod}
                     />
                 );
             }
@@ -734,6 +738,7 @@ class DominoesContainer extends React.PureComponent {
                         similarityValues={this.props.similarityValues}
                         title={leastSimilarColumnTitle}
                         onActiveDominoChange={this.props.onActiveDominoChange}
+                        projectionMethod={this.props.projectionMethod}
                     />
                     <ScrollWords
                         wordsIdxs={leastSimilarWordIdxs}
@@ -753,6 +758,7 @@ class DominoesContainer extends React.PureComponent {
                         similarityValues={this.props.similarityValues}
                         title={mostSimilarColumnTitle}
                         onActiveDominoChange={this.props.onActiveDominoChange}
+                        projectionMethod={this.props.projectionMethod}
                     />
                     <ScrollWords
                         wordsIdxs={mostSimilarWordIdxs}
@@ -828,7 +834,7 @@ class EmbeddingComparator extends React.Component {
         this.handleDatasetSelectorChange = this.handleDatasetSelectorChange.bind(this);
         this.handleModelChange = this.handleModelChange.bind(this);
         this.handleDistanceMetricChange = this.handleDistanceMetricChange.bind(this);
-        // this.handleProjectionMethodChange = this.handleProjectionMethodChange.bind(this);
+        this.handleProjectionMethodChange = this.handleProjectionMethodChange.bind(this);
         this.handleNumNeighborsSliderChange = this.handleNumNeighborsSliderChange.bind(this);
         this.handleDropdownChange = this.handleDropdownChange.bind(this);
         this.handleBrushSelectionChange = this.handleBrushSelectionChange.bind(this);
@@ -912,6 +918,12 @@ class EmbeddingComparator extends React.Component {
             distanceMetric: distanceMetric,
             similarityValues: newSimilarityValues,
             brushedWordIdxs: null,
+        });
+    }
+
+    handleProjectionMethodChange(projectionMethod) {
+        this.setState({
+            projectionMethod: projectionMethod,
         });
     }
 
@@ -1039,6 +1051,7 @@ class EmbeddingComparator extends React.Component {
                                 <ProjectionMethodSelector
                                     options={this.props.projectionMethodOptions}
                                     projectionMethod={this.state.projectionMethod}
+                                    onClick={this.handleProjectionMethodChange}
                                 />          
                             </div>
                             <SimilarityHistogram
