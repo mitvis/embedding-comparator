@@ -15,7 +15,7 @@ A demo of the Embedding Comparator is available at: <http://vis.mit.edu/embeddin
 
 #### Run Locally
 
-You can also run the Embedding Comparator demo locally by cloning this repository and starting a web server, e.g., by running `python -m SimpleHTTPServer`, and then opening <http://localhost:8000/index.html>.
+You can also run the Embedding Comparator demo locally by cloning this repository and starting a web server, e.g., by running `python3 -m http.server` (Python 3) or `python -m SimpleHTTPServer` (Python 2), and then opening <http://localhost:8000/index.html>.
 
 The case study demos in the paper (preprocessed data) are included in the `data/` directory of this repository.
 Due to file size constraints, raw data for these demos (including original embeddings and words in tsv format) can be downloaded [here](http://vis.mit.edu/embedding-comparator/raw_data/).
@@ -29,3 +29,17 @@ Adding your own models to the Embedding Comparator involves two steps:
 
 1. Preprocess each model with the [preprocess_data.py](preprocess_data.py) Python script (details and example in script docstring).
 2. Modify the `DATASET_TO_MODELS` object at the top of [embedding_comparator_react.js](embedding_comparator_react.js), adding the model details and path to the processed data (see examples for demo models).
+
+
+### Citation
+
+If you find the Embedding Comparator useful in your work, please cite:
+
+```bib
+@article{embedding-comparator,
+  title={{Embedding Comparator}: Visualizing Differences in Global Structure and Local Neighborhoods via Small Multiples},
+  author={Boggust, Angie and Carter, Brandon and Satyanarayan, Arvind},
+  journal={arXiv preprint arXiv:1912.04853},
+  year={2019}
+}
+```

@@ -50,6 +50,19 @@ const DATASET_TO_MODELS = {
             },
         ],
     },
+    emojis: {
+        name: 'Emoji Representations',
+        models: [
+            {
+                name: 'emoji2vec',
+                path: './data/emojis/emoji_words_preprocessed.json',
+            },
+            {
+                name: 'Emoji Image Vectors',
+                path: './data/emojis/emoji_imgs_preprocessed.json',
+            },
+        ],
+    },
 };
 
 const DISTANCE_METRICS = {
