@@ -718,15 +718,15 @@ class DominoesContainer extends React.PureComponent {
             );
             leastSimilarWordIdxs = filteredSortedIdxBySimilarity.slice(0, numFirstColumn);
             mostSimilarWordIdxs = filteredSortedIdxBySimilarity.reverse().slice(0, numSecondColumn);
-            leastSimilarColumnTitle = 'Least Similar Filtered Words';
-            mostSimilarColumnTitle = 'Most Similar Filtered Words';
+            leastSimilarColumnTitle = 'Least Similar Filtered Objects';
+            mostSimilarColumnTitle = 'Most Similar Filtered Objects';
         }
         else if (this.props.selectedWordIdx !== null) {
             const numFirstColumn = Math.ceil(this.props.selectedWordIdx.length / 2);
             leastSimilarWordIdxs = this.props.selectedWordIdx.slice(0, numFirstColumn);
             mostSimilarWordIdxs = this.props.selectedWordIdx.slice(numFirstColumn);
-            leastSimilarColumnTitle = 'Selected Words';
-            mostSimilarColumnTitle = 'Selected Words';
+            leastSimilarColumnTitle = 'Selected Objects';
+            mostSimilarColumnTitle = 'Selected Objects';
         }
         else {
             const sortedIdxBySimilarity = sortIdxsBySimilarityValues(
@@ -735,8 +735,8 @@ class DominoesContainer extends React.PureComponent {
                 0, this.props.numDominoesPerColumn);
             mostSimilarWordIdxs = sortedIdxBySimilarity.reverse().slice(
                 0, this.props.numDominoesPerColumn);
-            leastSimilarColumnTitle = 'Least Similar Words';
-            mostSimilarColumnTitle = 'Most Similar Words';
+            leastSimilarColumnTitle = 'Least Similar Objects';
+            mostSimilarColumnTitle = 'Most Similar Objects';
         }
 
         return (
