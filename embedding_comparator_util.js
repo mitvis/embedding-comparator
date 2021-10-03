@@ -7,8 +7,8 @@ const SEQUENTIAL_COLORS = ["#004616", "#126429", "#2B8238", "#419F44", "#6DB667"
 const PERCENT_FORMAT = d3.format('.0%');
 
 const GLOBAL_PROJECTION_PLOTLY_LAYOUT = {
-    width: 200,
-    height: 200,
+    width: 175,
+    height: 175,
     showlegend: false,
     xaxis: {
         showticklabels: false,
@@ -138,7 +138,7 @@ function createNearestNeighborsSlider(numNearestNeighbors, onChange) {
         .min(0)
         .max(MAX_NUM_NEIGHBORS)
         .step(1)
-        .width(150)
+        .width(130)
         .ticks(5)
         .default(numNearestNeighbors)
         .handle(
@@ -154,7 +154,7 @@ function createNearestNeighborsSlider(numNearestNeighbors, onChange) {
     var gNumNeighbors = d3
         .select('div#num-neighbors-slider')
         .append('svg')
-        .attr('width', 185)
+        .attr('width', 160)
         .attr('height', 50)
         .append('g')
         .attr('transform', 'translate(12,10)');
@@ -173,9 +173,9 @@ function createSimilarityHistogram(values, onBrush, brushSelectedIdxs) {
     })
 
     // set the dimensions and margins of the graph
-    const margin = {top: 20, right: 10, bottom: 20, left: 10},
+    const margin = {top: 20, right: 20, bottom: 20, left: 10},
         width = 180 - margin.left - margin.right,
-        height = 180 - margin.top - margin.bottom;
+        height = 170 - margin.top - margin.bottom;
 
     // append the svg object to the body of the page
     var svg = d3.select(".similarity-histogram-container")
@@ -312,12 +312,12 @@ function createSparkline(containerId, percentage) {
     const sparklineContainer = d3.selectAll('#' + containerId)
         .append('svg')
         .attr('height', 4)
-        .attr('width', '447px');
+        .attr('width', '100%');
 
     /* background sparkline */
     sparklineContainer.append('rect')
         .attr('height', 4)
-        .attr('width', '447px')
+        .attr('width', '100%')
         .attr('fill', '#ddd')
         .attr('x', 0)
         .attr('y', 0);
@@ -325,7 +325,7 @@ function createSparkline(containerId, percentage) {
     /* forground sparkline */
     sparklineContainer.append('rect')
         .attr('height', 10)
-        .attr('width', 447*percentage + 'px')
+        .attr('width', percentage + '%')
         .attr('fill', '#ccc')
         .attr('x', 0)
         .attr('y', 0);
@@ -424,6 +424,7 @@ function createScrollWords(wordIdxs, datasetObjects, similarityValues, container
         .data(words)
         .enter()
         .append('div')
+            .classed('scroll-text', true)
             .text((d) => `${d.word} (${PERCENT_FORMAT(d.score)})`)
             .style('cursor', 'pointer')
             .on('mouseenter', function(d) {
@@ -444,7 +445,7 @@ function createScrollWords(wordIdxs, datasetObjects, similarityValues, container
 
     svg.append('rect')
         .attr('height', 4)
-        .attr('width', '75%')
+        .attr('width', '100%')
         .attr('fill', '#f0f0f0');
 
     svg.append('rect')
@@ -452,110 +453,6 @@ function createScrollWords(wordIdxs, datasetObjects, similarityValues, container
         .attr('width', d => `${d.score*75}%`)
         .attr('fill', d => DIVERGING_SCALE(d))
         .attr('fill-opacity', 0.5);
-}
-
-/* Create Scatter Plot */
-function createScatterPlot(
-    containerClass, data, selectedWordIdx, distanceMetric,similarityScores,
-    numNearestNeighbors, projectionMethod) {
-    d3.selectAll('.' + containerClass + ' > *').remove();
-
-    var margin = {top: 10, right: 20, bottom: 20, left: 20},
-    width = 400 - margin.left - margin.right,
-    height = 400 - margin.top - margin.bottom;
-
-    // append the svg object to the body of the page
-    var svg = d3.select('.' + containerClass)
-      .append("svg")
-        .attr("width", width + margin.left + margin.right)
-        .attr("height", height + margin.top + margin.bottom)
-      .append("g")
-        .attr("transform",
-              "translate(" + margin.left + "," + margin.top + ")");
-
-    const plotMinMaxCoords = getMinMaxCoords(data, projectionMethod);
-
-    // Add X axis
-    var x = d3.scaleLinear()
-        .domain([plotMinMaxCoords.xMin, plotMinMaxCoords.xMax])
-        .range([ 0, width ]);
-        svg.append("g")
-        .attr("transform", "translate(0," + height*Math.abs(plotMinMaxCoords.yMax)/(Math.abs(plotMinMaxCoords.yMin) + Math.abs(plotMinMaxCoords.yMax)) + ")")
-        .call(d3.axisBottom(x).ticks(0).tickSizeOuter(0));
-
-    // Add Y axis
-    var y = d3.scaleLinear()
-        .domain([plotMinMaxCoords.yMin, plotMinMaxCoords.yMax])
-        .range([ height, 0]);
-        svg.append("g")
-        .attr("transform", "translate(" + width*Math.abs(plotMinMaxCoords.xMax)/(Math.abs(plotMinMaxCoords.xMin) + Math.abs(plotMinMaxCoords.xMax)) + ",0)")
-        .call(d3.axisLeft(y).ticks(0).tickSizeOuter(0));
-
-    // Add the tooltip container to the vis container
-    // it's invisible and its position/contents are defined during mouseover
-    var tooltip = d3.select('.' + containerClass).append("div")
-      .attr("class", "tooltip")
-      .style("opacity", 0);
-
-    // tooltip mouseover event handler
-    var tipMouseover = function(d) {
-      var html  = d.word;
-
-      tooltip.html(html)
-          .style("left", (d3.event.pageX - 10) + "px")
-          .style("top", (d3.event.pageY - 20) + "px")
-        .transition()
-          .duration(200) // ms
-          .style("opacity", .9) // started as 0!
-
-  };
-  // tooltip mouseout event handler
-  var tipMouseout = function(d) {
-      tooltip.transition()
-          .duration(300) // ms
-          .style("opacity", 0); // don't care about position!
-  };
-
-    // Add dots
-    if (selectedWordIdx === null) {
-        svg.append('g')
-            .selectAll("dot")
-            .data(data)
-            .enter()
-            .append("circle")
-              .attr("cx", function (d) { return x(d[projectionMethod][0]); } )
-              .attr("cy", function (d) { return y(d[projectionMethod][1]); } )
-              .attr("r", 2)
-              .style("fill", function (d) {
-                const index = Math.floor(similarityScores[d.idx]*10);
-                return DIVERGING_COLORS[index];
-            })
-              .style('opacity', 0.8)
-            .on("mouseover", tipMouseover)
-            .on("mouseout", tipMouseout)
-
-    } else {
-        const selectedWordNeighborIdx = data[selectedWordIdx].nearest_neighbors[distanceMetric].knn_ind.slice(0, numNearestNeighbors);
-        svg.append('g')
-            .selectAll("dot")
-            .data(data)
-            .enter()
-            .append("circle")
-              .attr("cx", function (d) { return x(d[projectionMethod][0]); } )
-              .attr("cy", function (d) { return y(d[projectionMethod][1]); } )
-              .attr("r", 2)
-              .style("fill", function (d, i) {
-                const index = Math.floor(similarityScores[d.idx]*SEQUENTIAL_COLORS.length);
-                if (d.idx == selectedWordIdx || selectedWordNeighborIdx.includes(d.idx)) {
-                    return SEQUENTIAL_COLORS[index];
-                }
-                return '#D3D3D3';
-
-              })
-              .style('opacity', 0.8)
-            .on("mouseover", tipMouseover)
-            .on("mouseout", tipMouseout)
-    }
 }
 
 function createScatterPlotPlotly(plotClass, datasetObjects, similarityScores,

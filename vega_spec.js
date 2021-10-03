@@ -6,7 +6,7 @@ const DEFAULT_VEGA_SPEC = {
   "$schema": "https://vega.github.io/schema/vega/v5.json",
   "autosize": "fit",
   "padding": 0,
-  "width": 448,
+  "width": 470,
   "height": 210,
   "data": [
     {
