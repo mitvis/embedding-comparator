@@ -580,7 +580,6 @@ class Domino extends React.PureComponent {
                     <div className='domino-word'>{this.props.word}</div>
                     <div className='domino-score'>{roundedSimilarity} similar</div>
                 </div>
-                <div id={this.props.className + '-sparkline'} className='sparkline'></div>
                 <div id={this.props.className + '-words-intersection'} className='domino-words-intersection'></div>
                 <div id={this.props.className + '-plot'} className='domino-plots'>
                 </div>
