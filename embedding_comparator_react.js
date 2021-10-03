@@ -64,7 +64,7 @@ const SIMILARITY_METRICS = {
 const PROJECTION_METHODS = {
     'pca': 'PCA',
     'umap': 'UMAP',
-    'tsne': 'tSNE',
+    'tsne': 't-SNE',
 }
 
 const DEFAULT_DATASET = 'sentanalysis';
