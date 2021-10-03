@@ -1,8 +1,14 @@
 :root {
     --title-height: 45px;
     --content-height: calc(100vh - var(--title-height));
+
     --control-panel-width: 400px;
+    --metrics-width: 160px;
+    --global-plot-height: 175px;
     --histogram-height: 170px;
+
+    --domino-width: 469px;
+    --column-title-height: 50px;
 
     --comparator-blue: #2f4454;
     --comparator-green: #66cda3;
@@ -29,8 +35,6 @@
 
     --padding: calc((var(--title-height) - var(--title-font-size))/2);
     --padding: 5px;
-
-    --domino-width: 440px;
 
 }
 
@@ -297,6 +301,7 @@ body {
 }
 
 .dominoes-container {
+    width: 100%;
 }
 
 .dominoes-column-container {
@@ -304,13 +309,7 @@ body {
     flex-direction: row;
     padding: calc(2 * var(--padding));
     height: calc(var(--content-height) - (2 * var(--padding)));
-    justify-content: space-between;
-}
-
-.domino-plots {
-    /* position: relative;
-    width: 100%;
-    height: 198px; */
+    justify-content: space-around;
 }
 
 .domino-plots svg {
@@ -329,7 +328,8 @@ body {
 }
 
 .domino-column {
-    height: calc(var(--content-height) - (2 * var(--padding)) - 65px);
+    height: calc(var(--content-height) - (2 * var(--padding)) - var(--column-title-height));
+    width: calc(var(--domino-width) + var(--padding) * 2);
     overflow-y: scroll;
     padding-right: var(--padding);
 }
@@ -365,8 +365,14 @@ body {
     margin-top: 35px;
     color: dimgrey;
     font-size: 10px;
-    width: 100px;
-    height: calc(100vh - var(--title-height) - var(--padding)*11)
+    width: 80px;
+    height: calc(var(--content-height) - (2 * var(--padding)) - var(--column-title-height));
+}
+
+.scroll-text{
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .domino {
@@ -386,6 +392,7 @@ body {
     border-top: 1px solid #aaa;
     border-left: 1px solid #aaa;
     border-right: 1px solid #aaa;
+    width: var(--domino-width);
 }
 
 .domino-active > .domino-title > .domino-score {
@@ -418,7 +425,7 @@ table {
 }
 
 .domino-words-intersection {
-    width: 447px;
+    width: var(--domino-width);
     overflow: auto;
     color: white;
     background: #ddd;
@@ -429,7 +436,7 @@ table {
 }
 
 .domino-not-intersection {
-    width: 447px;
+    width: var(--domino-width);
     display: flex;
     flex-direction: row;
     background: #ddd;
@@ -441,13 +448,14 @@ table {
 }
 
 .domino-words-a {
-    width: 224;
+    width: calc(var(--domino-width)/2);
     overflow: auto;
     border-right: 1px solid #999;
     display: flex;
     flex-direction: row;
-    padding: 2px 0;
+    padding: 2px 0px;
 }
+
 
 .scroll-word-active {
     font-weight: bold;
@@ -464,7 +472,7 @@ table {
 }
 
 .domino-words-b {
-    width: 223;
+    width: calc(var(--domino-width)/2);
     overflow: auto;
     padding: 2px 0;
 }

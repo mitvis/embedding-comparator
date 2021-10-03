@@ -312,12 +312,12 @@ function createSparkline(containerId, percentage) {
     const sparklineContainer = d3.selectAll('#' + containerId)
         .append('svg')
         .attr('height', 4)
-        .attr('width', '447px');
+        .attr('width', '100%');
 
     /* background sparkline */
     sparklineContainer.append('rect')
         .attr('height', 4)
-        .attr('width', '447px')
+        .attr('width', '100%')
         .attr('fill', '#ddd')
         .attr('x', 0)
         .attr('y', 0);
@@ -325,7 +325,7 @@ function createSparkline(containerId, percentage) {
     /* forground sparkline */
     sparklineContainer.append('rect')
         .attr('height', 10)
-        .attr('width', 447*percentage + 'px')
+        .attr('width', percentage + '%')
         .attr('fill', '#ccc')
         .attr('x', 0)
         .attr('y', 0);
@@ -424,6 +424,7 @@ function createScrollWords(wordIdxs, datasetObjects, similarityValues, container
         .data(words)
         .enter()
         .append('div')
+            .classed('scroll-text', true)
             .text((d) => `${d.word} (${PERCENT_FORMAT(d.score)})`)
             .style('cursor', 'pointer')
             .on('mouseenter', function(d) {
@@ -444,7 +445,7 @@ function createScrollWords(wordIdxs, datasetObjects, similarityValues, container
 
     svg.append('rect')
         .attr('height', 4)
-        .attr('width', '75%')
+        .attr('width', '100%')
         .attr('fill', '#f0f0f0');
 
     svg.append('rect')
