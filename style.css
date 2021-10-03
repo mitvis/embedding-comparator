@@ -158,10 +158,10 @@ body {
 
 .control-panel {
     height: var(--main-height);
+    width: var(--control-panel-width);
     display: flex;
     flex-direction: column;
     border-right: var(--section-border);
-    /* width: var(--control-panel-width); */
 }
 
 .model-selectors-container {
@@ -185,7 +185,7 @@ body {
     justify-content: space-between;
     flex-direction: column;
     flex: 1;
-    width: 50px;
+    width: var(--metrics-width);
 }
 
 .selector {
@@ -225,6 +225,10 @@ body {
 
 .distance-metric-selector button {
     margin-right: 5px;
+    padding-left: 5px; 
+    padding-right: 5px;
+    padding-top: 2px;
+    padding-bottom: 2px;
 }
 
 .num-neighbors-container {
@@ -278,16 +282,11 @@ body {
     width: 100%;
 }
 
-.projector-plot-container {
-    display: flex;
-    width: var(control-panel-width);
-    flex-direction: column;
-}
-
 .projector-plot-a-container, .projector-plot-b-container {
     display: flex;
     flex-direction: column;
     text-align: left;
+    height: var(--global-plot-height);
 }
 
 .main-panel {

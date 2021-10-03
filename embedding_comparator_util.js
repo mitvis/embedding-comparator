@@ -7,8 +7,8 @@ const SEQUENTIAL_COLORS = ["#004616", "#126429", "#2B8238", "#419F44", "#6DB667"
 const PERCENT_FORMAT = d3.format('.0%');
 
 const GLOBAL_PROJECTION_PLOTLY_LAYOUT = {
-    width: 200,
-    height: 200,
+    width: 175,
+    height: 175,
     showlegend: false,
     xaxis: {
         showticklabels: false,
@@ -138,7 +138,7 @@ function createNearestNeighborsSlider(numNearestNeighbors, onChange) {
         .min(0)
         .max(MAX_NUM_NEIGHBORS)
         .step(1)
-        .width(150)
+        .width(130)
         .ticks(5)
         .default(numNearestNeighbors)
         .handle(
@@ -154,7 +154,7 @@ function createNearestNeighborsSlider(numNearestNeighbors, onChange) {
     var gNumNeighbors = d3
         .select('div#num-neighbors-slider')
         .append('svg')
-        .attr('width', 185)
+        .attr('width', 160)
         .attr('height', 50)
         .append('g')
         .attr('transform', 'translate(12,10)');
@@ -173,7 +173,7 @@ function createSimilarityHistogram(values, onBrush, brushSelectedIdxs) {
     })
 
     // set the dimensions and margins of the graph
-    const margin = {top: 20, right: 10, bottom: 20, left: 10},
+    const margin = {top: 20, right: 20, bottom: 20, left: 10},
         width = 180 - margin.left - margin.right,
         height = 170 - margin.top - margin.bottom;
 
