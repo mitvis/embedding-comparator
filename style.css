@@ -9,6 +9,8 @@
 
     --domino-width: 469px;
     --column-title-height: 50px;
+    --scroll-words-width: 90px;
+    --domino-container-width: 1400px;
 
     --comparator-blue: #2f4454;
     --comparator-green: #66cda3;
@@ -310,6 +312,7 @@ body {
     padding: calc(2 * var(--padding));
     height: calc(var(--content-height) - (2 * var(--padding)));
     justify-content: space-around;
+    max-width: var(--domino-container-width);
 }
 
 .domino-plots svg {
@@ -365,7 +368,7 @@ body {
     margin-top: 35px;
     color: dimgrey;
     font-size: 10px;
-    width: 80px;
+    width: var(--scroll-words-width);
     height: calc(var(--content-height) - (2 * var(--padding)) - var(--column-title-height));
 }
 
