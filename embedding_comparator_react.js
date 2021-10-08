@@ -12,19 +12,6 @@ const DATASET_TO_MODELS = {
             },
         ],
     },
-    glove_6b_vs_twitter: {
-        name: 'GloVe Pre-trained: Wikipedia/News vs. Twitter',
-        models: [
-            {
-                name: 'Wikipedia/News',
-                path: './data/glove_6b_vs_twitter/6B_preprocessed.json',
-            },
-            {
-                name: 'Twitter',
-                path: './data/glove_6b_vs_twitter/twitter_preprocessed.json',
-            },
-        ],
-    },
     histwords: {
         name: 'HistWords Diachronic Word Embeddings',
         models: [
@@ -60,6 +47,19 @@ const DATASET_TO_MODELS = {
             {
                 name: 'Emoji Image Vectors',
                 path: './data/emojis/emoji_imgs_preprocessed.json',
+            },
+        ],
+    },
+    glove_6b_vs_twitter: {
+        name: 'GloVe Pre-trained: Wikipedia/News vs. Twitter',
+        models: [
+            {
+                name: 'Wikipedia/News',
+                path: './data/glove_6b_vs_twitter/6B_preprocessed.json',
+            },
+            {
+                name: 'Twitter',
+                path: './data/glove_6b_vs_twitter/twitter_preprocessed.json',
             },
         ],
     },
