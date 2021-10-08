@@ -6,6 +6,7 @@
     --metrics-width: 160px;
     --global-plot-height: 175px;
     --histogram-height: 170px;
+    --domino-list-height: 34px;
 
     --domino-width: 469px;
     --column-title-height: 50px;
@@ -337,16 +338,32 @@ body {
     padding-right: var(--padding);
 }
 
-.domino-column::-webkit-scrollbar {
+::-webkit-scrollbar {
     -webkit-appearance: none;
     width: 7px;
-    border: 1px solid #eee;
+    height: 7px;
 }
 
-.domino-column::-webkit-scrollbar-thumb {
+::-webkit-scrollbar-thumb {
     border-radius: 4px;
     background-color: rgba(0,0,0,.15);
     -webkit-box-shadow: 0 0 1px rgba(255,255,255,.3);
+}
+
+.domino-column::-webkit-scrollbar {
+    border: 1px solid #eee;
+}
+
+.domino-words-a::-webkit-scrollbar-thumb {
+    border: 1px solid rgb(168, 168, 168);
+}
+
+.domino-words-b::-webkit-scrollbar-thumb {
+    border: 1px solid rgb(168, 168, 168);
+}
+
+.domino-words-intersection::-webkit-scrollbar-thumb {
+    border: 1px solid rgb(168, 168, 168);
 }
 
 .dominoes-column-left {
@@ -429,6 +446,7 @@ table {
 
 .domino-words-intersection {
     width: var(--domino-width);
+    height: var(--domino-list-height);
     overflow: auto;
     color: white;
     background: #ddd;
@@ -436,10 +454,14 @@ table {
     border-top: 1px solid #aaa;
     border-left: 1px solid #aaa;
     border-right: 1px solid #aaa;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
 }
 
 .domino-not-intersection {
     width: var(--domino-width);
+    height: var(--domino-list-height);
     display: flex;
     flex-direction: row;
     background: #ddd;
@@ -456,6 +478,7 @@ table {
     border-right: 1px solid #999;
     display: flex;
     flex-direction: row;
+    align-items: center;
     padding: 2px 0px;
 }
 
@@ -478,6 +501,9 @@ table {
     width: calc(var(--domino-width)/2);
     overflow: auto;
     padding: 2px 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
 }
 
 .row-header {
@@ -487,4 +513,8 @@ table {
     font-variant: all-small-caps;
     display: flex;
     flex-direction: row;
+}
+
+tr {
+    vertical-align: baseline;
 }
