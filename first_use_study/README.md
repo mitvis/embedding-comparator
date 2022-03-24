@@ -1,0 +1,1 @@
+This Jupyter notebook was provided to participants during first-use studies as described in Section 6 of our paper.
