@@ -2,9 +2,11 @@
 
 This repository contains code for the paper:
 
-[Embedding Comparator: Visualizing Differences in Global Structure and Local Neighborhoods via Small Multiples](https://arxiv.org/abs/1912.04853)
+[Embedding Comparator: Visualizing Differences in Global Structure and Local Neighborhoods via Small Multiples](https://dl.acm.org/doi/10.1145/3490099.3511122)
 <br>
 Authors: Angie Boggust, Brandon Carter, Arvind Satyanarayan
+<br>
+IUI 2022
 
 
 ### Embedding Comparator Demo
@@ -36,10 +38,12 @@ Adding your own models to the Embedding Comparator involves two steps:
 If you find the Embedding Comparator useful in your work, please cite:
 
 ```bib
-@article{embedding-comparator,
+@inproceedings{embedding-comparator,
   title={{Embedding Comparator}: Visualizing Differences in Global Structure and Local Neighborhoods via Small Multiples},
   author={Boggust, Angie and Carter, Brandon and Satyanarayan, Arvind},
-  journal={arXiv preprint arXiv:1912.04853},
-  year={2019}
+  publisher={Association for Computing Machinery},
+  booktitle={International Conference on Intelligent User Interfaces (IUI)},
+  pages={746–766},
+  year={2022}
 }
 ```
