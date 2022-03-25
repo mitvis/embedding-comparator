@@ -66,6 +66,8 @@ body {
     font-weight: var(--title-font-weight);
 }
 
+svg path { fill: white; }
+
 /* Tooltip attribute*/
 [data-tooltip] {
   position: relative;
